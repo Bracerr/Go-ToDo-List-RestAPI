@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"fmt"
 	"gorm.io/gorm"
 	"toDoListRestApi/src/domain"
 )
@@ -33,12 +34,17 @@ func (r *todoRepository) FindAll() ([]domain.Todo, error) {
 
 func (r *todoRepository) FindByID(id uint) (*domain.Todo, error) {
 	var todo domain.Todo
+	fmt.Println(id)
 	err := r.db.First(&todo, id).Error
 	return &todo, err
 }
 
 func (r *todoRepository) Update(todo *domain.Todo) error {
-	return r.db.Save(todo).Error
+	var existingTodo domain.Todo
+	if err := r.db.First(&existingTodo, todo.ID).Error; err != nil {
+		return err
+	}
+	return r.db.Model(&existingTodo).Updates(todo).Error
 }
 
 func (r *todoRepository) Delete(id uint) error {
