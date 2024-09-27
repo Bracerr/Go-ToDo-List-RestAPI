@@ -12,7 +12,7 @@ func NewClient(dbModel configs.DbInitModel) *gorm.DB {
 	dsn := "host=" + dbModel.DbHost +
 		" user=" + dbModel.DbUser +
 		" password=" + dbModel.DbPassword +
-		" dbname=" + dbModel.DbPassword +
+		" dbname=" + dbModel.DbName +
 		" port=" + dbModel.DbPort +
 		" sslmode=disable"
 

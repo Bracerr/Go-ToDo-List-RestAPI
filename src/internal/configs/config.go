@@ -13,7 +13,7 @@ func GetDbParams() DbInitModel {
 		log.Fatalf("Ошибка при получении текущей директории: %v", err)
 	}
 
-	envFilePath := filepath.Join(filepath.Dir(filepath.Dir(filepath.Dir(rootDir))), ".env")
+	envFilePath := filepath.Join(filepath.Dir(filepath.Dir(rootDir)), ".env")
 
 	envErr := godotenv.Load(envFilePath)
 	if envErr != nil {
