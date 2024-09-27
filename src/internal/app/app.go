@@ -2,6 +2,7 @@ package app
 
 import (
 	"github.com/labstack/echo/v4"
+	echoSwagger "github.com/swaggo/echo-swagger"
 	"toDoListRestApi/src/internal/configs"
 	"toDoListRestApi/src/internal/delivery/http"
 	"toDoListRestApi/src/internal/repository"
@@ -24,6 +25,8 @@ func Run() {
 	e.GET("/todos/:id", todoHandler.GetByID)
 	e.PUT("/todos/:id", todoHandler.Update)
 	e.DELETE("/todos/:id", todoHandler.Delete)
+
+	e.GET("/swagger/*", echoSwagger.WrapHandler)
 
 	e.Logger.Fatal(e.Start(":8080"))
 }

@@ -27,6 +27,8 @@ func (h *TodoHandler) Create(c echo.Context) error {
 	return c.JSON(http.StatusCreated, todo)
 }
 
+// GetAll @Summary Get all users
+// @Description Get all users with pagination
 func (h *TodoHandler) GetAll(c echo.Context) error {
 	offsetParam := c.QueryParam("offset")
 	limitParam := c.QueryParam("limit")
