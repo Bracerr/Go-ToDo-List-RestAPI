@@ -1,13 +1,13 @@
 package service
 
 import (
-	"toDoListRestApi/src/domain"
-	"toDoListRestApi/src/repository"
+	"toDoListRestApi/src/internal/domain"
+	"toDoListRestApi/src/internal/repository"
 )
 
 type TodoService interface {
 	Create(todo *domain.Todo) error
-	GetAll() ([]domain.Todo, error)
+	GetAllWithPagination(offset, limit int) ([]domain.Todo, error) // Изменено здесь
 	GetByID(id uint) (*domain.Todo, error)
 	Update(todo *domain.Todo) error
 	Delete(id uint) error
@@ -22,11 +22,12 @@ func NewTodoService(repo repository.TodoRepository) TodoService {
 }
 
 func (s *todoService) Create(todo *domain.Todo) error {
+
 	return s.repo.Create(todo)
 }
 
-func (s *todoService) GetAll() ([]domain.Todo, error) {
-	return s.repo.FindAll()
+func (s *todoService) GetAllWithPagination(offset, limit int) ([]domain.Todo, error) {
+	return s.repo.FindAllWithPagination(offset, limit)
 }
 
 func (s *todoService) GetByID(id uint) (*domain.Todo, error) {

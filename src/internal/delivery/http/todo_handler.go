@@ -1,11 +1,11 @@
-package handler
+package http
 
 import (
 	"github.com/labstack/echo/v4"
 	"net/http"
 	"strconv"
-	"toDoListRestApi/src/domain"
-	"toDoListRestApi/src/service"
+	"toDoListRestApi/src/internal/domain"
+	"toDoListRestApi/src/internal/service"
 )
 
 type TodoHandler struct {
@@ -28,7 +28,20 @@ func (h *TodoHandler) Create(c echo.Context) error {
 }
 
 func (h *TodoHandler) GetAll(c echo.Context) error {
-	todos, err := h.service.GetAll()
+	offsetParam := c.QueryParam("offset")
+	limitParam := c.QueryParam("limit")
+
+	offset, err := strconv.Atoi(offsetParam)
+	if err != nil {
+		offset = 0
+	}
+
+	limit, err := strconv.Atoi(limitParam)
+	if err != nil {
+		limit = 10
+	}
+
+	todos, err := h.service.GetAllWithPagination(offset, limit)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err)
 	}
